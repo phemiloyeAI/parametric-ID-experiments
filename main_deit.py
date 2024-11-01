@@ -135,9 +135,11 @@ def main():
     args = parser.parse_args()
 
     data_config = yaml.safe_load(open(args.data_cfg, 'r'))
-    for key, value in data_config.items():
-        if hasattr(args, key):
-            setattr(args, key, value)
+    for key in data_config:
+        if key == 'dataset':
+            for k, v in data_config[key].items():
+                if hasattr(args, k):
+                    setattr(args, k, v)
     print(args)
 
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpus
@@ -240,10 +242,10 @@ def main_worker(gpu, ngpus_per_node, args):
         if os.path.isfile(args.pretrained):
             print("=> loading checkpoint '{}'".format(args.pretrained))
             checkpoint = torch.load(args.pretrained, map_location="cpu")
-            print(args.pretrained)
+            # print(args.pretrained)
             # rename moco pre-trained keys
             state_dict = checkpoint
-            print(state_dict.keys())
+            # print(state_dict.keys())
             for k in list(state_dict.keys()):
                 # retain only encoder_q up to before the embedding layer
                 if k.startswith('module.encoder_q.'):
@@ -286,14 +288,15 @@ def main_worker(gpu, ngpus_per_node, args):
                                k in model_dict and pretrained_dict[k].size() == model_dict[k].size()}
 
             for k, v in pretrained_dict.items():
-                print(k)
+                # print(k)
+                pass
 
             model_dict.update(pretrained_dict)
             #model.load_state_dict(model_dict)
 
             args.start_epoch = 0
             msg = model.load_state_dict(model_dict, strict=False)
-            print(msg.missing_keys)
+            # print(msg.missing_keys)
             #assert set(msg.missing_keys) == {"fc.weight", "fc.bias"}
             print("=> loaded pre-trained model '{}'".format(args.pretrained))
         else:
