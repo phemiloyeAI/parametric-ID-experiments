@@ -146,9 +146,12 @@ best_acc1 = 0
 def main():
     args = parser.parse_args()
     data_config = yaml.safe_load(open(args.data_cfg, 'r'))
-    for key, value in data_config.items():
-        if hasattr(args, key):
-            setattr(args, key, value)
+    data_config = yaml.safe_load(open(args.data_cfg, 'r'))
+    for key in data_config:
+        if key == 'dataset':
+            for k, v in data_config[key].items():
+                if hasattr(args, k):
+                    setattr(args, k, v)
     print(args)
 
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpus
