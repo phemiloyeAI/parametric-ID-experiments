@@ -1,9 +1,9 @@
 model:
-    model_arch: 'deit_tiny_patch16_224'
+    model_arch: 'resnet18_224'
     epochs: 200
-    batch_size: 8
+    batch_size: 4
     learning_rate: 5e-4
-    weight_decay: 1e-3
+    weight_decay: 0.001
     embed_dim: 192
     alpha: 0.5
     input_size: 224
@@ -20,5 +20,5 @@ dataset:
     folder_test: 'jpg'
     df_classid_classname: 'classid_classname.csv'
 
-project_name: 'parametric-instance-discrimination-reproduction'
-ckpt_path: 'checkpoints/224_finetune/flowers/deit_tiny_patch16_224_lr_0.0005_wd_0.001_bs_8_epochs_200_dim_192_cutmix_0.5_path_flowerspretrained_deit_tiny/checkpoint_0000.pth.tar'
+project_name: 'IDMM-reproduction'
+ckpt_path: 'checkpoints/instance_discrimination/flowers/resnet18_224_lr_0.0005_wd_0.001_bs_4_epochs_200_path_flowerscutmix_0.5crops_112_2_112_4/checkpoint_0000.pth.tar'
