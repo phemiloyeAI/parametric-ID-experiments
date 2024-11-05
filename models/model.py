@@ -5,8 +5,9 @@ from functools import partial
 from timm.data import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
 from timm.models.helpers import load_pretrained
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
-from timm.models.resnet import resnet26d, resnet50d
+from timm.models.resnet import resnet26d, resnet50d, resnet18, resnet50, resnet34
 from timm.models.registry import register_model
+from timm.models.resnet import default_cfgs as resnet_cfgs
 
 
 def _cfg(url='', **kwargs):
@@ -276,6 +277,33 @@ def _conv_filter(state_dict, patch_size=16):
         out_dict[k] = v
     return out_dict
 
+
+@register_model
+def resnet18_224(pretrained=False, **kwargs):
+    model = resnet18(pretrained, **kwargs)
+    model.default_cfg = resnet_cfgs['resnet18.tv_in1k']
+    if pretrained:
+        load_pretrained(
+            model, num_classes=model.num_classes, in_chans=kwargs.get('in_chans', 3), filter_fn=_conv_filter())
+    return model
+
+@register_model
+def resnet50_224(pretrained=False, **kwargs):
+    model = resnet50(pretrained, **kwargs)
+    model.default_cfg = resnet_cfgs['resnet50.tv_in1k']
+    if pretrained:
+        load_pretrained(
+            model, num_classes=model.num_classes, in_chans=kwargs.get('in_chans', 3), filter_fn=_conv_filter())
+    return model
+
+@register_model
+def resnet34_224(pretrained=False, **kwargs):
+    model = resnet34(pretrained, **kwargs)
+    model.default_cfg = resnet_cfgs['resnet34.tv_in1k']
+    if pretrained:
+        load_pretrained(
+            model, num_classes=model.num_classes, in_chans=kwargs.get('in_chans', 3), filter_fn=_conv_filter())
+    return model
 
 @register_model
 def vit_small_patch16_224(pretrained=False, **kwargs):
