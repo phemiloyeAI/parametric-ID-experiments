@@ -18,9 +18,15 @@ sudo apt install yq
 ```
 
 ### Pre-training stage
-- Pre-training stage using instance discrimination (c.f. run_deit_tiny_instance_discrimination_flowers.sh), run:
+--VIT
+- Pre-training stage using instance discrimination (c.f. scripts/run_deit_tiny_inst_discrt.sh), run:
 ```
-./scripts/run_deit_tiny_instance_discrimination_flowers.sh configs/run.yml
+./scripts/run_deit_tiny_inst_discrt.sh configs/run.yml
+```
+
+--ResNet
+```
+./scripts/run_resnet_inst_discrt.sh configs/run.yml
 ```
 
 ### Fine-tuning stage
@@ -28,13 +34,13 @@ sudo apt install yq
 - First, we fine-tune with 224x224 resolution, run:
 - Change the input size to 224 inside the run.yml config
 ```
-./scripts/run_deit_tiny_flowers.sh configs/run.yml
+./scripts/run_deit_tiny.sh configs/run.yml
 ```
 
-- Then, we continue to finetune with 448x448 resolution (c.f. run_deit_tiny_448_flowers.sh), run:
+- Then, we continue to finetune with 448x448 resolution (c.f. run_deit_tiny.sh for ViT and run_resnet.sh for ResNet), run:
 - Change the input size to 448 inside the run.yml config
 ```
-./scripts/run_deit_tiny_flowers.sh  configs/run.yml
+./scripts/run_deit_tiny.sh  configs/run.yml
 ```
 
 ## Citation
